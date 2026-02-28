@@ -9,3 +9,9 @@ TestResults
 *.suo
 *.user
 *.Debug.cachefile
+
+# JetBrains IDE local folder 
+.idea
+
+# Visual Studio local folder
+.vs
