@@ -14,6 +14,7 @@
         <None Remove="Icon.ico"/>
         <None Remove="Icon.bmp"/>
         <None Remove="Content\obj\**" />
+        <None Remove="Content\bin\**" />
     </ItemGroup>
     <ItemGroup>
         <EmbeddedResource Include="Icon.ico">
@@ -23,6 +24,7 @@
             <LogicalName>Icon.bmp</LogicalName>
         </EmbeddedResource>
         <EmbeddedResource Remove="Content\obj\**" />
+        <EmbeddedResource Remove="Content\bin\**" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.*"/>
@@ -30,5 +32,6 @@
     </ItemGroup>
     <ItemGroup>
       <Compile Remove="Content\obj\**" />
+      <Compile Remove="Content\bin\**" />
     </ItemGroup>
 </Project>
