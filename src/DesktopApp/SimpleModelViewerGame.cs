@@ -7,64 +7,65 @@ using Microsoft.Xna.Framework.Input;
 namespace DesktopApp;
 
 public class SimpleModelViewerGame : GameBase
-  {
-    private SimpleModel      _model3D;
-    private SimpleCamera _camera;
-    private Matrix       _matrixProjection;
+{
+    private const float FieldOfView = MathHelper.PiOver4;
+    private const float NearPlaneDistance = 1.0f;
+    private const int FarPlaneDistance = 10000;
 
-    public override string GameVersion
+    private SimpleModel _model3D;
+
+    private SimpleCamera _camera;
+
+    private Matrix _matrixProjection;
+
+    protected override string GameVersion
     {
-      get { return string.Format("1.0.0 (build {0})", DateTime.Now.ToString("yyyy-MM-dd")); }
+        get { return $"1.0.0 (build {DateTime.Now:yyyy-MM-dd})"; }
     }
 
     protected override void Initialize()
     {
-      base.Initialize();
+        base.Initialize();
 
-      _camera = new SimpleCamera(Graphics.GraphicsDevice);
-      _camera.CameraPosition = new Vector3(0.0f, 50.0f, 5000.0f);
+        _camera = new SimpleCamera(Graphics.GraphicsDevice) { CameraPosition = new Vector3(0.0f, 50.0f, 5000.0f) };
 
-      float fieldOfView = MathHelper.PiOver4;
-      float aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
-      float nearPlaneDistance = 1.0f;
-      float farPlaneDistance = 10000;
-      _matrixProjection = Matrix.CreatePerspectiveFieldOfView(fieldOfView, aspectRatio, nearPlaneDistance, farPlaneDistance);
+        var aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
+        _matrixProjection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, aspectRatio, NearPlaneDistance, FarPlaneDistance);
 
-      SetWindowName("Devpro Model Viewer");
+        SetWindowName("Devpro Model Viewer");
     }
 
     protected override void LoadContent()
     {
-      base.LoadContent();
+        base.LoadContent();
 
-      string modelName = "p1_wedge";
-      _model3D = new SimpleModel(modelName, Content);
+        _model3D = new SimpleModel("p1_wedge", Content);
     }
 
     protected override void Update(GameTime gameTime)
     {
-      KeyboardState kbState = Keyboard.GetState();
+        var kbState = Keyboard.GetState();
 
-      CheckIfGameMustExit(kbState);
+        CheckIfGameMustExit(kbState);
 
-      _model3D.RotationY += (float)gameTime.ElapsedGameTime.TotalMilliseconds * MathHelper.ToRadians(0.1f);
+        _model3D.RotationY += (float)gameTime.ElapsedGameTime.TotalMilliseconds * MathHelper.ToRadians(0.1f);
 
-      base.Update(gameTime);
+        base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
-      Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+        Graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-      _model3D.Draw(_camera);
+        _model3D.Draw(_camera);
 
-      base.Draw(gameTime);
+        base.Draw(gameTime);
 
-      StringBuilder sb = new StringBuilder();
-      sb.AppendLine(string.Format("Model position: X {0}, Y {1}, Z {2}", _model3D.Position.X, _model3D.Position.Y, _model3D.Position.Z));
-      sb.AppendLine(string.Format("Model rotation: X {0}, Y {1}, Z {2}", _model3D.Rotation.X, _model3D.Rotation.Y, _model3D.Rotation.Z));
-      sb.AppendLine(string.Format("Model size: {0}", _model3D.GetModelSize()));
-      sb.AppendLine(string.Format("Camera position: X {0}, Y {1}, Z {2}", _camera.CameraPosition.X, _camera.CameraPosition.Y, _camera.CameraPosition.Z));
-      DrawString(sb.ToString(), new Vector2(15, 15), Color.BlueViolet);
+        var sb = new StringBuilder();
+        sb.AppendLine($"Model position: X {_model3D.Position.X}, Y {_model3D.Position.Y}, Z {_model3D.Position.Z}");
+        sb.AppendLine($"Model rotation: X {_model3D.Rotation.X}, Y {_model3D.Rotation.Y}, Z {_model3D.Rotation.Z}");
+        sb.AppendLine($"Model size: {_model3D.GetModelSize()}");
+        sb.AppendLine($"Camera position: X {_camera.CameraPosition.X}, Y {_camera.CameraPosition.Y}, Z {_camera.CameraPosition.Z}");
+        DrawString(sb.ToString(), new Vector2(15, 15), Color.BlueViolet);
     }
-  }
+}

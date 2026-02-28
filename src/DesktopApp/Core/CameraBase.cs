@@ -11,10 +11,10 @@ public abstract class CameraBase
     public Matrix Projection
     {
         get { return _projection; }
-        protected set
+        private set
         {
             _projection = value;
-            generateFrustum();
+            GenerateFrustum();
         }
     }
 
@@ -24,29 +24,28 @@ public abstract class CameraBase
         protected set
         {
             _view = value;
-            generateFrustum();
+            GenerateFrustum();
         }
     }
 
-    public BoundingFrustum Frustum { get; private set; }
+    private BoundingFrustum Frustum { get; set; }
 
-    protected GraphicsDevice GraphicsDevice { get; set; }
+    private GraphicsDevice GraphicsDevice { get; }
 
-    public CameraBase(GraphicsDevice graphicsDevice)
+    protected CameraBase(GraphicsDevice graphicsDevice)
     {
-        this.GraphicsDevice = graphicsDevice;
+        GraphicsDevice = graphicsDevice;
 
-        generatePerspectiveProjectionMatrix(MathHelper.PiOver4);
+        GeneratePerspectiveProjectionMatrix(MathHelper.PiOver4);
     }
 
-    private void generatePerspectiveProjectionMatrix(float FieldOfView)
+    private void GeneratePerspectiveProjectionMatrix(float fieldOfView)
     {
-        PresentationParameters pp = GraphicsDevice.PresentationParameters;
+        var pp = GraphicsDevice.PresentationParameters;
 
-        float aspectRatio = (float)pp.BackBufferWidth /
-                            (float)pp.BackBufferHeight;
+        var aspectRatio = (float)pp.BackBufferWidth / (float)pp.BackBufferHeight;
 
-        this.Projection = Matrix.CreatePerspectiveFieldOfView(
+        Projection = Matrix.CreatePerspectiveFieldOfView(
             MathHelper.ToRadians(45), aspectRatio, 0.1f, 1000000.0f);
     }
 
@@ -54,7 +53,7 @@ public abstract class CameraBase
     {
     }
 
-    private void generateFrustum()
+    private void GenerateFrustum()
     {
         var viewProjection = View * Projection;
         Frustum = new BoundingFrustum(viewProjection);

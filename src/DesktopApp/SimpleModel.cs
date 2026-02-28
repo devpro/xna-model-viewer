@@ -55,7 +55,7 @@ public class SimpleModel
 
     private void LoadModel(string modelFileName, ContentManager Content)
     {
-      _model = Content.Load<Model>(string.Format("{0}\\{1}", GameBase.MODELS_PATH, modelFileName));
+      _model = Content.Load<Model>(string.Format("{0}\\{1}", GameBase.ModelsPath, modelFileName));
 
       _transforms = CreateTransformMatrices(_model);
 
@@ -63,7 +63,7 @@ public class SimpleModel
       foreach (ModelMesh mesh in _model.Meshes)
       {
         BoundingSphere origMeshSphere = mesh.BoundingSphere;
-        BoundingSphere transMeshSphere = XNAUtils.TransformBoundingSphere(origMeshSphere, _transforms[mesh.ParentBone.Index]);
+        BoundingSphere transMeshSphere = XnaUtils.TransformBoundingSphere(origMeshSphere, _transforms[mesh.ParentBone.Index]);
         completeBoundingSphere = BoundingSphere.CreateMerged(completeBoundingSphere, transMeshSphere);
       }
       _model.Tag = completeBoundingSphere;

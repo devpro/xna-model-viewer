@@ -3,29 +3,27 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DesktopApp.Core;
 
-class FreeCamera : CameraBase
+public class FreeCamera(GraphicsDevice graphicsDevice) : CameraBase(graphicsDevice)
 {
-    public float   Yaw         { get; set; }
-    public float   Pitch       { get; set; }
-    public Vector3 Position    { get; set; }
-    public Vector3 Target      { get; private set; }
-    public Vector3 Translation { get; private set; }
+    public float Yaw { get; set; }
 
-    public FreeCamera(GraphicsDevice graphicsDevice)
-        : base(graphicsDevice)
-    {
-        Translation = Vector3.Zero;
-    }
+    public float Pitch { get; set; }
+
+    public Vector3 Position { get; set; }
+
+    private Vector3 Target { get; set; }
+
+    private Vector3 Translation { get; set; } = Vector3.Zero;
 
     public void Rotate(float yawChange, float pitchChange)
     {
-        this.Yaw   += yawChange;
-        this.Pitch += pitchChange;
+        Yaw += yawChange;
+        Pitch += pitchChange;
     }
 
     public void Move(Vector3 translation)
     {
-        this.Translation += translation;
+        Translation += translation;
     }
 
     public override void Update()
@@ -34,9 +32,9 @@ class FreeCamera : CameraBase
         var rotation = Matrix.CreateFromYawPitchRoll(Yaw, Pitch, 0);
 
         // Offset the position and reset the translation
-        Translation  = Vector3.Transform(Translation, rotation);
-        Position    += Translation;
-        Translation  = Vector3.Zero;
+        Translation = Vector3.Transform(Translation, rotation);
+        Position += Translation;
+        Translation = Vector3.Zero;
 
         // Calculate the new target
         var forward = Vector3.Transform(Vector3.Forward, rotation);

@@ -3,10 +3,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DesktopApp.Core;
 
-class TargetCamera(GraphicsDevice graphicsDevice) : CameraBase(graphicsDevice)
+internal class TargetCamera(GraphicsDevice graphicsDevice) : CameraBase(graphicsDevice)
 {
     public Vector3 Position { get; set; }
-    public Vector3 Target   { get; set; }
+
+    public Vector3 Target { get; set; }
 
     public override void Update()
     {

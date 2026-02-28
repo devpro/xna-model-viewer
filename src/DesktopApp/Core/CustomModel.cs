@@ -3,19 +3,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DesktopApp.Core;
 
-class CustomModel
+internal class CustomModel
 {
-    public Vector3         Position { get; set; }
-    public Vector3         Rotation { get; set; }
-    public Vector3         Scale    { get; set; }
+    public Vector3 Position { get; init; }
 
-    public Model           Model    { get; private set; }
+    public Vector3 Rotation { get; init; }
 
-    private Matrix[]       modelTransforms;
-    private GraphicsDevice graphicsDevice;
-    private BoundingSphere boundingSphere;
+    public Vector3 Scale { get; init; }
 
-    public BoundingSphere  BoundingSphere
+    private Model Model { get; set; }
+
+    private readonly Matrix[] _modelTransforms;
+    private GraphicsDevice _graphicsDevice;
+    private BoundingSphere _boundingSphere;
+
+    public BoundingSphere BoundingSphere
     {
         get
         {
@@ -23,7 +25,7 @@ class CustomModel
             var worldTransform = Matrix.CreateScale(Scale)
                                  * Matrix.CreateTranslation(Position);
 
-            var transformed = boundingSphere;
+            var transformed = _boundingSphere;
             transformed = transformed.Transform(worldTransform);
 
             return transformed;
@@ -34,12 +36,12 @@ class CustomModel
     {
         this.Model = Model;
 
-        modelTransforms = new Matrix[Model.Bones.Count];
-        Model.CopyAbsoluteBoneTransformsTo(modelTransforms);
+        _modelTransforms = new Matrix[Model.Bones.Count];
+        Model.CopyAbsoluteBoneTransformsTo(_modelTransforms);
 
         buildBoundingSphere();
 
-        this.graphicsDevice = graphicsDevice;
+        this._graphicsDevice = graphicsDevice;
     }
 
     public void Draw(Matrix View, Matrix Projection)
@@ -49,15 +51,17 @@ class CustomModel
                         * Matrix.CreateFromYawPitchRoll(Rotation.Y, Rotation.X, Rotation.Z)
                         * Matrix.CreateTranslation(Position);
 
-        foreach (ModelMesh mesh in Model.Meshes) {
-            var localWorld = modelTransforms[mesh.ParentBone.Index]
+        foreach (ModelMesh mesh in Model.Meshes)
+        {
+            var localWorld = _modelTransforms[mesh.ParentBone.Index]
                              * baseWorld;
 
-            foreach (ModelMeshPart meshPart in mesh.MeshParts) {
-                var effect         = (BasicEffect)meshPart.Effect;
-                effect.World       = localWorld;
-                effect.View        = View;
-                effect.Projection  = Projection;
+            foreach (ModelMeshPart meshPart in mesh.MeshParts)
+            {
+                var effect = (BasicEffect)meshPart.Effect;
+                effect.World = localWorld;
+                effect.View = View;
+                effect.Projection = Projection;
                 effect.EnableDefaultLighting();
             }
 
@@ -70,13 +74,14 @@ class CustomModel
         var sphere = new BoundingSphere(Vector3.Zero, 0);
 
         // Merge all the model's built in bounding spheres
-        foreach (var mesh in Model.Meshes) {
+        foreach (var mesh in Model.Meshes)
+        {
             var transformed = mesh.BoundingSphere.Transform(
-                modelTransforms[mesh.ParentBone.Index]);
+                _modelTransforms[mesh.ParentBone.Index]);
 
             sphere = BoundingSphere.CreateMerged(sphere, transformed);
         }
 
-        this.boundingSphere = sphere;
+        this._boundingSphere = sphere;
     }
 }

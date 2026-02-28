@@ -11,15 +11,15 @@ public class SimpleCamera
 
     private const int FarPlaneDistance = 10000;
 
-    public Vector3 CameraTarget     { get; private set; }
+    private Vector3 CameraTarget { get; set; }
 
-    public Vector3 CameraUpVector   { get; private set; }
+    private Vector3 CameraUpVector { get; set; }
 
-    public Vector3 CameraPosition   { get; set; }
+    public Vector3 CameraPosition { get; init; }
 
-    public Matrix  ProjectionMatrix { get; private set; }
+    public Matrix ProjectionMatrix { get; private set; }
 
-    public Matrix  ViewMatrix
+    public Matrix ViewMatrix
     {
         get { return Matrix.CreateLookAt(CameraPosition, CameraTarget, CameraUpVector); }
     }
@@ -27,7 +27,7 @@ public class SimpleCamera
     public SimpleCamera(GraphicsDevice graphicsDevice)
     {
         CameraPosition = Vector3.Zero;
-        CameraTarget   = Vector3.Zero;
+        CameraTarget = Vector3.Zero;
         CameraUpVector = Vector3.Up;
 
         var aspectRatio = graphicsDevice.Viewport.AspectRatio;

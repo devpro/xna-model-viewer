@@ -6,96 +6,63 @@ using Microsoft.Xna.Framework;
 
 namespace DesktopApp.Core;
 
-public abstract class GameBase : Microsoft.Xna.Framework.Game
+public abstract class GameBase : Game
 {
-    public static readonly string CONTENT_PATH  = "Content";
+    public const string ModelsPath = "Models";
 
-    public static readonly string MODELS_PATH   = "Models";
+    private const string TexturesPath = "Textures";
 
-    public static readonly string TEXTURES_PATH = "Textures";
-
-    public static readonly string FONTS_PATH    = "Fonts";
+    private const string FontsPath = "Fonts";
 
     private SpriteBatch _spriteBatch;
-    private SpriteFont  _gameFont;
+    private SpriteFont _gameFont;
 
-    /// <summary>
-    /// Graphics Device Manager
-    /// </summary>
-    public GraphicsDeviceManager Graphics { get; private set; }
+    protected GraphicsDeviceManager Graphics { get; private set; }
 
-    public abstract string GameVersion { get; }
+    protected abstract string GameVersion { get; }
 
-    public GameBase()
+    protected GameBase()
     {
         Graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
     }
 
-    #region Protected Game Methods
-
-    /// <summary>
-    ///
-    /// </summary>
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        _gameFont = Content.Load<SpriteFont>(string.Format("sample", FONTS_PATH));
+        _gameFont = Content.Load<SpriteFont>(string.Format("sample", FontsPath));
     }
 
-    /// <summary>
-    /// UnloadContent will be called once per game and is the place to unload all content.
-    /// </summary>
     protected override void UnloadContent()
     {
         Components.Clear(); // needed?
         Content.Unload(); // needed?
     }
 
-    #endregion // Protected Game Methods
-
-    /// <summary>
-    /// Load a 2D texture
-    /// </summary>
-    /// <param name="textureName"></param>
-    /// <returns></returns>
     protected Texture2D LoadTexture2D(string textureFileName)
     {
         try
         {
-            return Content.Load<Texture2D>(string.Format("{0}\\{1}", TEXTURES_PATH, textureFileName));
+            return Content.Load<Texture2D>($"{TexturesPath}\\{textureFileName}");
         }
         catch (Exception exc)
         {
             // TODO: Microsoft.Xna.Framework.Content.ContentLoadException
-            Debug.WriteLine(string.Format("Cannot load {0} texture. Message: \"{1}\"", textureFileName, exc.Message), "LoadContent");
+            Debug.WriteLine($"Cannot load {textureFileName} texture. Message: \"{exc.Message}\"", "LoadContent");
             throw;
         }
     }
 
-    /// <summary>
-    /// Allows the game to exit
-    /// </summary>
     protected void CheckIfGameMustExit(KeyboardState kbState)
     {
         if (kbState.IsKeyDown(Keys.Escape)) { this.Exit(); }
     }
 
-    /// <summary>
-    /// Set game window name (title)
-    /// </summary>
-    /// <param name="windowName">Name to be set</param>
     protected void SetWindowName(string windowName)
     {
-        Window.Title = string.Format("{0} - v{1}", windowName, GameVersion);
+        Window.Title = $"{windowName} - v{GameVersion}";
     }
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="text"></param>
-    /// <param name="position"></param>
-    /// <param name="color"></param>
     protected void DrawString(string text, Vector2 position, Color color)
     {
         _spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend);
