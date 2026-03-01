@@ -13,6 +13,20 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Fonts/font.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/font.spritefont
+
+#begin Fonts/sample.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/sample.spritefont
+
 #begin Ships/ship1_c.tga
 /importer:TextureImporter
 /processor:TextureProcessor

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Text;
-using DesktopApp.Core;
+using DesktopApp.Engine;
+using DesktopApp.Engine.Camera;
+using DesktopApp.Engine.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,7 +11,9 @@ namespace DesktopApp;
 public class SimpleModelViewerGame : GameBase
 {
     private const float FieldOfView = MathHelper.PiOver4;
+
     private const float NearPlaneDistance = 1.0f;
+
     private const int FarPlaneDistance = 10000;
 
     private SimpleModel _model3D;
@@ -27,7 +31,8 @@ public class SimpleModelViewerGame : GameBase
     {
         base.Initialize();
 
-        _camera = new SimpleCamera(Graphics.GraphicsDevice) { CameraPosition = new Vector3(0.0f, 50.0f, 5000.0f) };
+        _camera = new SimpleCamera(Graphics.GraphicsDevice) { CameraPosition = new Vector3(0.0f, 0.0f, 200.0f) };
+        // _camera = new SimpleCamera(Graphics.GraphicsDevice) { CameraPosition = new Vector3(0.0f, 50.0f, 5000.0f) };
 
         var aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
         _matrixProjection = Matrix.CreatePerspectiveFieldOfView(FieldOfView, aspectRatio, NearPlaneDistance, FarPlaneDistance);
@@ -39,14 +44,19 @@ public class SimpleModelViewerGame : GameBase
     {
         base.LoadContent();
 
-        _model3D = new SimpleModel("p1_wedge", Content);
+        _model3D = new SimpleModel("Ships/ship1", Content);
+        // _model3D = new SimpleModel("p1_wedge", Content);
     }
 
     protected override void Update(GameTime gameTime)
     {
         var kbState = Keyboard.GetState();
 
-        CheckIfGameMustExit(kbState);
+        if (kbState.IsKeyDown(Keys.Escape))
+        {
+            Exit();
+            return;
+        }
 
         _model3D.RotationY += (float)gameTime.ElapsedGameTime.TotalMilliseconds * MathHelper.ToRadians(0.1f);
 

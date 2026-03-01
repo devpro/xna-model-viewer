@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
-using DesktopApp.Core;
+using DesktopApp.Engine;
+using DesktopApp.Engine.Camera;
+using DesktopApp.Engine.Model;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -9,9 +11,9 @@ namespace DesktopApp;
 public class ModelViewerGame : Game
 {
     private readonly GraphicsDeviceManager _graphics;
-    private SpriteBatch _spriteBatch; // can be used to draw textures
-    private readonly Dictionary<string, CustomModel> models;
-    private readonly Dictionary<string, CameraBase> cameras;
+    private SpriteBatch _spriteBatch;
+    private readonly Dictionary<string, CustomModel> _models;
+    private readonly Dictionary<string, CameraBase> _cameras;
     private MouseState _lastMouseState;
     private string _currentCamera;
 
@@ -19,8 +21,8 @@ public class ModelViewerGame : Game
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
-        models = new Dictionary<string, CustomModel>();
-        cameras = new Dictionary<string, CameraBase>();
+        _models = new Dictionary<string, CustomModel>();
+        _cameras = new Dictionary<string, CameraBase>();
         _currentCamera = "free";
 
         _graphics.PreferredBackBufferWidth = 800;
@@ -29,19 +31,21 @@ public class ModelViewerGame : Game
 
     protected override void Initialize()
     {
-        models.Add("ship1",
+        _models.Add("ship1",
             new CustomModel(Content.Load<Model>("Ships/ship1"), GraphicsDevice)
             {
-                Position = new Vector3(0, 100, 0), Rotation = Vector3.Zero, Scale = new Vector3(1.6f)
+                Position = new Vector3(0, 100, 0),
+                Rotation = Vector3.Zero,
+                Scale = new Vector3(1.6f)
             }
         );
 
         // models.Add("ship", new CustomModel(Content.Load<Model>("Ship/ship"), GraphicsDevice) {
         //   Position = Vector3.Zero, Rotation = Vector3.Zero, Scale = new Vector3(0.6f) }
         // );
-        /*models.Add("car", new CustomModel(Content.Load<Model>("Car/car"), GraphicsDevice) {
-          Position = new Vector3(0, 100, 0), Rotation = Vector3.Zero, Scale = new Vector3(1.6f) }
-        );*/
+        // models.Add("car", new CustomModel(Content.Load<Model>("Car/car"), GraphicsDevice) {
+        //   Position = new Vector3(0, 100, 0), Rotation = Vector3.Zero, Scale = new Vector3(1.6f) }
+        // );
         // models.Add("dude", new CustomModel(Content.Load<Model>("Dude/dude_converted"), GraphicsDevice) {
         //   Position = new Vector3(0, 200, 0), Rotation = Vector3.Zero, Scale = new Vector3(1.6f) }
         // );
@@ -53,14 +57,14 @@ public class ModelViewerGame : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        cameras["free"] = new FreeCamera(GraphicsDevice)
+        _cameras["free"] = new FreeCamera(GraphicsDevice)
         {
             Position = new Vector3(1000, 0, -2000),
-            Yaw = MathHelper.ToRadians(153), // Turned around 153 degrees
-            Pitch = MathHelper.ToRadians(5) // Pitched up 13 degrees
+            Yaw = MathHelper.ToRadians(153),
+            Pitch = MathHelper.ToRadians(5)
         };
 
-        cameras["chase"] = new ChaseCamera(GraphicsDevice)
+        _cameras["chase"] = new ChaseCamera(GraphicsDevice)
         {
             PositionOffset = new Vector3(0, 400, 1500),
             TargetOffset = new Vector3(0, 200, 0),
@@ -79,8 +83,8 @@ public class ModelViewerGame : Game
     {
         var keyState = Keyboard.GetState();
 
-        // allows the game to exit
-        if (CheckGameExit())
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
+            || Keyboard.GetState().IsKeyDown(Keys.Escape))
         {
             Exit();
             return;
@@ -98,23 +102,16 @@ public class ModelViewerGame : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        //var target = models["ship"].Position;
+        var target = _models["ship1"].Position;
+        var view = _cameras[_currentCamera].View;
+        var projection = _cameras[_currentCamera].Projection;
 
-        var view = cameras[_currentCamera].View;
-        var projection = cameras[_currentCamera].Projection;
-
-        foreach (var model in models.Values)
+        foreach (var model in _models.Values)
         {
             model.Draw(view, projection);
         }
 
         base.Draw(gameTime);
-    }
-
-    private static bool CheckGameExit()
-    {
-        return GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed
-               || Keyboard.GetState().IsKeyDown(Keys.Escape);
     }
 
     private void UpdateCamera(GameTime gameTime)
@@ -127,32 +124,29 @@ public class ModelViewerGame : Game
         var deltaY = (float)_lastMouseState.Y - mouseState.Y;
 
         // Rotate the camera
-        ((FreeCamera)cameras["free"]).Rotate(deltaX * .01f, deltaY * .01f);
+        ((FreeCamera)_cameras["free"]).Rotate(deltaX * .01f, deltaY * .01f);
 
         var translation = Vector3.Zero;
 
         // Determine in which direction to move the camera
         if (keyState.IsKeyDown(Keys.Z)) { translation += Vector3.Forward; }
-
         if (keyState.IsKeyDown(Keys.S)) { translation += Vector3.Backward; }
-
         if (keyState.IsKeyDown(Keys.Q)) { translation += Vector3.Left; }
-
         if (keyState.IsKeyDown(Keys.D)) { translation += Vector3.Right; }
 
         // Move 3 units per millisecond, independent of frame rate
         translation *= 3 * (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
         // Move the camera
-        ((FreeCamera)cameras["free"]).Move(translation);
+        ((FreeCamera)_cameras["free"]).Move(translation);
 
-        cameras["free"].Update();
+        _cameras["free"].Update();
 
         // Move the camera to the new model's position and orientation
-        // ((ChaseCamera)cameras["chase"]).Move(models["ship"].Position, models["ship"].Rotation);
+        ((ChaseCamera)_cameras["chase"]).Move(_models["ship1"].Position, _models["ship1"].Rotation);
 
         // Update the camera
-        cameras["chase"].Update();
+        _cameras["chase"].Update();
 
         // Update the mouse state
         _lastMouseState = mouseState;

@@ -1,3 +1,3 @@
-﻿// EmptyGame, ModelViewerGame, SimpleModelViewerGame
-using var game = new DesktopApp.ModelViewerGame();
+﻿// available: ModelViewerGame, SimpleModelViewerGame
+using var game = new DesktopApp.SimpleModelViewerGame();
 game.Run();
