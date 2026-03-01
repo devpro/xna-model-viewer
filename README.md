@@ -1,4 +1,4 @@
-# Xna Model Viewer
+# XNA Model Viewer
 
 [![CI](https://github.com/devpro/xna-model-viewer/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/devpro/xna-model-viewer/actions/workflows/ci.yaml)
 
