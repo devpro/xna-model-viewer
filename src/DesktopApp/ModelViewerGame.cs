@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using DesktopApp.Engine;
 using DesktopApp.Engine.Camera;
 using DesktopApp.Engine.Model;
 using Microsoft.Xna.Framework;
@@ -31,24 +30,24 @@ public class ModelViewerGame : Game
 
     protected override void Initialize()
     {
-        _models.Add("ship1",
-            new CustomModel(Content.Load<Model>("Ships/ship1"), GraphicsDevice)
+        _models.Add("ship",
+            new CustomModel(Content.Load<Model>("Ship/ship"), GraphicsDevice)
             {
-                Position = new Vector3(0, 100, 0),
-                Rotation = Vector3.Zero,
-                Scale = new Vector3(1.6f)
+                Position = Vector3.Zero, Rotation = Vector3.Zero, Scale = new Vector3(0.6f)
             }
         );
-
-        // models.Add("ship", new CustomModel(Content.Load<Model>("Ship/ship"), GraphicsDevice) {
-        //   Position = Vector3.Zero, Rotation = Vector3.Zero, Scale = new Vector3(0.6f) }
-        // );
-        // models.Add("car", new CustomModel(Content.Load<Model>("Car/car"), GraphicsDevice) {
-        //   Position = new Vector3(0, 100, 0), Rotation = Vector3.Zero, Scale = new Vector3(1.6f) }
-        // );
-        // models.Add("dude", new CustomModel(Content.Load<Model>("Dude/dude_converted"), GraphicsDevice) {
-        //   Position = new Vector3(0, 200, 0), Rotation = Vector3.Zero, Scale = new Vector3(1.6f) }
-        // );
+        _models.Add("dude",
+            new CustomModel(Content.Load<Model>("Dude/dude"), GraphicsDevice)
+            {
+                Position = new Vector3(0, 1000, 0), Rotation = Vector3.Zero, Scale = new Vector3(10f)
+            }
+        );
+        _models.Add("tank",
+            new CustomModel(Content.Load<Model>("Tank/tank"), GraphicsDevice)
+            {
+                Position = new Vector3(0, 500, 0), Rotation = Vector3.Zero, Scale = new Vector3(100f)
+            }
+        );
 
         base.Initialize();
     }
@@ -59,9 +58,7 @@ public class ModelViewerGame : Game
 
         _cameras["free"] = new FreeCamera(GraphicsDevice)
         {
-            Position = new Vector3(1000, 0, -2000),
-            Yaw = MathHelper.ToRadians(153),
-            Pitch = MathHelper.ToRadians(5)
+            Position = new Vector3(1000, 0, -2000), Yaw = MathHelper.ToRadians(153), Pitch = MathHelper.ToRadians(5)
         };
 
         _cameras["chase"] = new ChaseCamera(GraphicsDevice)
@@ -102,7 +99,7 @@ public class ModelViewerGame : Game
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        var target = _models["ship1"].Position;
+        // var target = _models["ship"].Position;
         var view = _cameras[_currentCamera].View;
         var projection = _cameras[_currentCamera].Projection;
 
@@ -130,8 +127,11 @@ public class ModelViewerGame : Game
 
         // Determine in which direction to move the camera
         if (keyState.IsKeyDown(Keys.Z)) { translation += Vector3.Forward; }
+
         if (keyState.IsKeyDown(Keys.S)) { translation += Vector3.Backward; }
+
         if (keyState.IsKeyDown(Keys.Q)) { translation += Vector3.Left; }
+
         if (keyState.IsKeyDown(Keys.D)) { translation += Vector3.Right; }
 
         // Move 3 units per millisecond, independent of frame rate
@@ -143,9 +143,9 @@ public class ModelViewerGame : Game
         _cameras["free"].Update();
 
         // Move the camera to the new model's position and orientation
-        ((ChaseCamera)_cameras["chase"]).Move(_models["ship1"].Position, _models["ship1"].Rotation);
+        // ((ChaseCamera)_cameras["chase"]).Move(_models["ship"].Position, _models["ship"].Rotation);
 
-        // Update the camera
+        // updates the camera
         _cameras["chase"].Update();
 
         // Update the mouse state

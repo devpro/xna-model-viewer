@@ -31,7 +31,7 @@ public class SimpleModelViewerGame : GameBase
     {
         base.Initialize();
 
-        _camera = new SimpleCamera(Graphics.GraphicsDevice) { CameraPosition = new Vector3(0.0f, 0.0f, 200.0f) };
+        _camera = new SimpleCamera(Graphics.GraphicsDevice) { CameraPosition = new Vector3(0.0f, 50.0f, 3000.0f) };
         // _camera = new SimpleCamera(Graphics.GraphicsDevice) { CameraPosition = new Vector3(0.0f, 50.0f, 5000.0f) };
 
         var aspectRatio = Graphics.GraphicsDevice.Viewport.AspectRatio;
@@ -44,8 +44,7 @@ public class SimpleModelViewerGame : GameBase
     {
         base.LoadContent();
 
-        _model3D = new SimpleModel("Ships/ship1", Content);
-        // _model3D = new SimpleModel("p1_wedge", Content);
+        _model3D = new SimpleModel("Ship/ship", Content);
     }
 
     protected override void Update(GameTime gameTime)
@@ -55,10 +54,9 @@ public class SimpleModelViewerGame : GameBase
         if (kbState.IsKeyDown(Keys.Escape))
         {
             Exit();
-            return;
         }
 
-        _model3D.RotationY += (float)gameTime.ElapsedGameTime.TotalMilliseconds * MathHelper.ToRadians(0.1f);
+        _model3D.RotationY += (float)gameTime.ElapsedGameTime.TotalMilliseconds * MathHelper.ToRadians(0.05f);
 
         base.Update(gameTime);
     }
@@ -69,13 +67,13 @@ public class SimpleModelViewerGame : GameBase
 
         _model3D.Draw(_camera);
 
-        base.Draw(gameTime);
-
         var sb = new StringBuilder();
         sb.AppendLine($"Model position: X {_model3D.Position.X}, Y {_model3D.Position.Y}, Z {_model3D.Position.Z}");
         sb.AppendLine($"Model rotation: X {_model3D.Rotation.X}, Y {_model3D.Rotation.Y}, Z {_model3D.Rotation.Z}");
         sb.AppendLine($"Model size: {_model3D.GetModelSize()}");
         sb.AppendLine($"Camera position: X {_camera.CameraPosition.X}, Y {_camera.CameraPosition.Y}, Z {_camera.CameraPosition.Z}");
         DrawString(sb.ToString(), new Vector2(15, 15), Color.BlueViolet);
+
+        base.Draw(gameTime);
     }
 }

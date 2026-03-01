@@ -56,3 +56,16 @@ dotnet format
 docker run --rm -v "$(pwd)":/data cytopia/yamllint .
 docker run --rm -v "$(pwd)":/workdir davidanson/markdownlint-cli2 "**/*.md"
 ```
+
+## Inspirations
+
+- [MonoGame/MonoGame.Samples](https://github.com/MonoGame/MonoGame.Samples)
+- [SimonDarksideJ/XNAGameStudio](https://github.com/SimonDarksideJ/XNAGameStudio) by [DarkGenesis](https://darkgenesis.zenithmoon.com/)
+
+Convert old models with [FBX 2013.3 Converter for Windows 64-bit](https://aps.autodesk.com/developer/overview/fbx-converter-archives)
+
+Save in ASCII, edit the file manually to fix the relative path (".." instead of ".")
+
+<!--
+C:\Program Files\Autodesk\FBX\FBX Converter\2013.3\samples
+-->
