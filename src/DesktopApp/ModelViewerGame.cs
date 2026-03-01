@@ -33,19 +33,25 @@ public class ModelViewerGame : Game
         _models.Add("ship",
             new CustomModel(Content.Load<Model>("Ship/ship"), GraphicsDevice)
             {
-                Position = Vector3.Zero, Rotation = Vector3.Zero, Scale = new Vector3(0.6f)
+                Position = Vector3.Zero,
+                Rotation = Vector3.Zero,
+                Scale = new Vector3(0.6f)
             }
         );
         _models.Add("dude",
             new CustomModel(Content.Load<Model>("Dude/dude"), GraphicsDevice)
             {
-                Position = new Vector3(0, 1000, 0), Rotation = Vector3.Zero, Scale = new Vector3(10f)
+                Position = new Vector3(0, 1000, 0),
+                Rotation = Vector3.Zero,
+                Scale = new Vector3(10f)
             }
         );
         _models.Add("tank",
             new CustomModel(Content.Load<Model>("Tank/tank"), GraphicsDevice)
             {
-                Position = new Vector3(0, 500, 0), Rotation = Vector3.Zero, Scale = new Vector3(100f)
+                Position = new Vector3(0, 500, 0),
+                Rotation = Vector3.Zero,
+                Scale = new Vector3(100f)
             }
         );
 
@@ -58,7 +64,9 @@ public class ModelViewerGame : Game
 
         _cameras["free"] = new FreeCamera(GraphicsDevice)
         {
-            Position = new Vector3(1000, 0, -2000), Yaw = MathHelper.ToRadians(153), Pitch = MathHelper.ToRadians(5)
+            Position = new Vector3(1000, 0, -2000),
+            Yaw = MathHelper.ToRadians(153),
+            Pitch = MathHelper.ToRadians(5)
         };
 
         _cameras["chase"] = new ChaseCamera(GraphicsDevice)

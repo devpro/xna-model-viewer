@@ -61,6 +61,7 @@ docker run --rm -v "$(pwd)":/workdir davidanson/markdownlint-cli2 "**/*.md"
 
 - [MonoGame/MonoGame.Samples](https://github.com/MonoGame/MonoGame.Samples)
 - [SimonDarksideJ/XNAGameStudio](https://github.com/SimonDarksideJ/XNAGameStudio) by [DarkGenesis](https://darkgenesis.zenithmoon.com/)
+  - Forks: [rbwhitaker/MonoGameSamples](https://github.com/rbwhitaker/MonoGameSamples)
 
 Convert old models with [FBX 2013.3 Converter for Windows 64-bit](https://aps.autodesk.com/developer/overview/fbx-converter-archives)
 
