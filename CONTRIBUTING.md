@@ -4,7 +4,7 @@
 
 ### IDE
 
-- Rider (recommended)
+- Rider (recommended) with [MonoGame plugin](https://plugins.jetbrains.com/plugin/18415-monogame)
 - Visual Studio 2026
 - Visual Studio Code
 
@@ -16,6 +16,7 @@ Add MonoGame templates:
 dotnet new install "MonoGame.Templates.CSharp"
 ```
 
+<!--
 Available templates:
 
 Template Name                               | Short Name        | Tags
@@ -30,6 +31,7 @@ MonoGame Game Library                       | mglib             | MonoGame/Games
 MonoGame iOS Application                    | mgios             | MonoGame/Games/Mobile/iOS
 MonoGame Shared Library Project             | mgshared          | MonoGame/Games/Library
 MonoGame Windows Desktop Application        | mgwindowsdx       | MonoGame/Games/Desktop/Windows
+-->
 
 ## Backlog
 
@@ -63,9 +65,8 @@ docker run --rm -v "$(pwd)":/workdir davidanson/markdownlint-cli2 "**/*.md"
 - [SimonDarksideJ/XNAGameStudio](https://github.com/SimonDarksideJ/XNAGameStudio) by [DarkGenesis](https://darkgenesis.zenithmoon.com/)
   - Forks: [rbwhitaker/MonoGameSamples](https://github.com/rbwhitaker/MonoGameSamples)
 
-Convert old models with [FBX 2013.3 Converter for Windows 64-bit](https://aps.autodesk.com/developer/overview/fbx-converter-archives)
-
-Save in ASCII, edit the file manually to fix the relative path (".." instead of ".")
+Convert old models with [FBX 2013.3 Converter for Windows 64-bit](https://aps.autodesk.com/developer/overview/fbx-converter-archives), save in ASCII,
+edit the file manually to fix the relative path (replace ".." by ".")
 
 <!--
 C:\Program Files\Autodesk\FBX\FBX Converter\2013.3\samples
