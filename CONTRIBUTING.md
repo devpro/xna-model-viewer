@@ -16,6 +16,7 @@ Add MonoGame templates:
 dotnet new install "MonoGame.Templates.CSharp"
 ```
 
+<!--
 Available templates:
 
 Template Name                               | Short Name        | Tags
@@ -30,6 +31,7 @@ MonoGame Game Library                       | mglib             | MonoGame/Games
 MonoGame iOS Application                    | mgios             | MonoGame/Games/Mobile/iOS
 MonoGame Shared Library Project             | mgshared          | MonoGame/Games/Library
 MonoGame Windows Desktop Application        | mgwindowsdx       | MonoGame/Games/Desktop/Windows
+-->
 
 ## Backlog
 
