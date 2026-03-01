@@ -22,11 +22,11 @@ concurrency:
 jobs:
   markup-lint:
     name: Markup
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@359427548fbdfbc8af19b17d6b0a41fa20f51a37
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@a4c82c6d051361a2b6e4a5cba321f3ec8dff3983
 
   code-quality:
     name: Code
     if: github.event_name != 'workflow_dispatch' || inputs.run-code-quality
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@359427548fbdfbc8af19b17d6b0a41fa20f51a37
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@a4c82c6d051361a2b6e4a5cba321f3ec8dff3983
     with:
       operating-system: windows-latest
