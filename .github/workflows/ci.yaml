@@ -1,0 +1,30 @@
+﻿name: CI
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+# purpose: Continuous Integration pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run-code-quality:
+        description: 'Check code quality?'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: "${{ github.ref }}-ci"
+  cancel-in-progress: true
+
+jobs:
+  markup-lint:
+    name: Markup
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@37400c6d7def6330265424b598dc1861b136e981
+
+  code-quality:
+    name: Code
+    if: github.event_name != 'workflow_dispatch' || inputs.run-code-quality
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@d7663950e52d3056f15214c0f2a9ae1f12a53b44

@@ -2,7 +2,12 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".gitignore" />
+    <File Path=".markdownlint.yml" />
+    <File Path="CONTRIBUTING.md" />
     <File Path="README.md" />
+  </Folder>
+  <Folder Name="/Solution Items/pipelines/">
+    <File Path=".github/workflows/ci.yaml" />
   </Folder>
   <Project Path="src/DesktopApp/DesktopApp.csproj" />
 </Solution>
