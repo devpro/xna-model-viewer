@@ -4,7 +4,7 @@
 
 ### IDE
 
-- Rider (recommended)
+- Rider (recommended) with [MonoGame plugin](https://plugins.jetbrains.com/plugin/18415-monogame) 
 - Visual Studio 2026
 - Visual Studio Code
 
