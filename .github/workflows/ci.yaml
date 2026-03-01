@@ -28,3 +28,5 @@ jobs:
     name: Code
     if: github.event_name != 'workflow_dispatch' || inputs.run-code-quality
     uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@d7663950e52d3056f15214c0f2a9ae1f12a53b44
+    with:
+      operating-system: windows-latest
