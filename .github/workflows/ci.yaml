@@ -31,3 +31,4 @@ jobs:
     with:
       dotnet-version: 9.0
       operating-system: windows-latest
+      workflow-parts-version: 9a4de16b0eb23b5305809f4362cca5496121f674
