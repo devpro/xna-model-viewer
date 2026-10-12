@@ -1,0 +1,6 @@
+# IstarCI configuration, read from the root of the repository.
+
+runner:
+  image: ghcr.io/devpro/ubuntu-dotnet:latest
+  images:
+    "markup-lint*": ghcr.io/devpro/debian-node:latest
