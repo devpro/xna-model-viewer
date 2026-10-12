@@ -71,3 +71,8 @@ edit the file manually to fix the relative path (replace ".." by ".")
 <!--
 C:\Program Files\Autodesk\FBX\FBX Converter\2013.3\samples
 -->
+
+## Run the pipeline locally
+
+[IstarCI](https://github.com/devpro/istarci) runs the GitHub Actions pipeline in Docker before the push.
+`istarci add` and `istarci install-hook` set it up for this repository.
