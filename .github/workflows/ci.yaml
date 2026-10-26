@@ -1,4 +1,4 @@
-﻿name: CI
+name: CI
 # yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 # purpose: Continuous Integration pipeline
 
@@ -22,13 +22,13 @@ concurrency:
 jobs:
   markup-lint:
     name: Markup
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
 
   code-quality:
     name: Code
     if: github.event_name != 'workflow_dispatch' || inputs.run-code-quality
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
     with:
       dotnet-version: 9.0
       operating-system: windows-latest
-      workflow-parts-version: defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+      workflow-parts-version: 591b0c7bfba6fbc7b0cab7d896447e0732b819de
