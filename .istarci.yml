@@ -3,4 +3,4 @@
 runner:
   image: ghcr.io/devpro/ubuntu-dotnet:latest
   images:
-    "markup-lint*": ghcr.io/devpro/debian-node:latest
+    "markup-lint*": ghcr.io/devpro/ubuntu-node:latest
